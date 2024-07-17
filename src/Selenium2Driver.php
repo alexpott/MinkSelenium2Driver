@@ -422,6 +422,18 @@ class Selenium2Driver extends CoreDriver
 
     public function reset()
     {
+        $windows = $this->getWindowNames();
+        // Remove the main window from the list of windows.
+        array_shift($windows);
+
+        foreach ($windows as $name) {
+            $this->switchToWindow($name);
+            $this->getWebDriverSession()->window()->close();
+        }
+
+        // Ensure the main window is active.
+        $this->switchToWindow();
+
         $this->getWebDriverSession()->deleteAllCookies();
     }
 
