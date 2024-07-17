@@ -938,7 +938,7 @@ JS;
         $this->doMouseOver($this->findElement($xpath));
     }
 
-    private function doMouseOver(Element $element)
+    private function doMouseOver(Element $element): void
     {
         if ($this->isW3C()) {
             $actions = array(
