@@ -950,7 +950,7 @@ JS;
         $this->doMouseOver($this->findElement($xpath));
     }
 
-    private function scrollElementIntoView(Element $element) {
+    private function scrollElementIntoView(Element $element): void {
         $script = <<<JS
             var e = arguments[0];
             e.scrollIntoView({ behavior: 'instant', block: 'end', inline: 'nearest' });
