@@ -53,9 +53,11 @@ jobs:
         # 4.1.2-20220227 - last known working version of 4 where the modifications to this package weren't needed
         selenium:
           - image: 'selenium/standalone-firefox:4.1.2'
+            browser: firefox
           - image: 'selenium/standalone-firefox:latest'
+            browser: firefox
           - image: 'selenium/standalone-chrome:latest'
-            env: WEB_FIXTURES_BROWSER=chrome
+            browser: chrome
 
       fail-fast: false
 
@@ -93,6 +95,7 @@ jobs:
           while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
 
       - name: Run tests
+        env: WEB_FIXTURES_BROWSER=${{matrix.selenium.browser}}
         run: |
           ./vendor/bin/phpunit -v --coverage-clover=coverage.xml
 
