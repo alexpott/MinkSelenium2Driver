@@ -950,9 +950,23 @@ JS;
         $this->doMouseOver($this->findElement($xpath));
     }
 
+    private function scrollElementIntoView(Element $element) {
+        $script = <<<JS
+            var e = arguments[0];
+            e.scrollIntoView({ behavior: 'instant', block: 'end', inline: 'nearest' });
+            var rect = e.getBoundingClientRect();
+            return {'x': rect.left, 'y': rect.top};
+        JS;
+
+        $this->executeJsOnElement($element, $script);
+    }
+
     private function doMouseOver(Element $element): void
     {
         if ($this->isW3C()) {
+            // Firefox needs the element in view in order to move the pointer to
+            // it.
+            $this->scrollElementIntoView($element);
             $actions = array(
                 'actions' => [
                     [
