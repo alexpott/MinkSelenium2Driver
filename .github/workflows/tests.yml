@@ -51,7 +51,14 @@ jobs:
       matrix:
         php: [ '8.1', '8.2', '8.3' ]
         # 4.1.2-20220227 - last known working version of 4 where the modifications to this package weren't needed
-        selenium: ['4.1.2', 'latest']
+        selenium:
+          - image: 'selenium/standalone-firefox:4.1.2'
+            browser: firefox
+          - image: 'selenium/standalone-firefox:latest'
+            browser: firefox
+          - image: 'selenium/standalone-chrome:latest'
+            browser: chrome
+
       fail-fast: false
 
     steps:
@@ -80,7 +87,7 @@ jobs:
 
       - name: Start Selenium
         run: |
-          docker run --net host --name selenium --volume /dev/shm:/dev/shm --volume $GITHUB_WORKSPACE:$GITHUB_WORKSPACE -e SE_NODE_OVERRIDE_MAX_SESSIONS=true -e SE_NODE_MAX_SESSIONS=5 --shm-size 2g selenium/standalone-firefox:${{ matrix.selenium }} &> ./logs/selenium.log &
+          docker run --net host --name selenium --volume /dev/shm:/dev/shm --volume $GITHUB_WORKSPACE:$GITHUB_WORKSPACE -e SE_NODE_OVERRIDE_MAX_SESSIONS=true -e SE_NODE_MAX_SESSIONS=5 --shm-size 2g ${{ matrix.selenium.image }} &> ./logs/selenium.log &
 
       - name: Wait for browser & PHP to start
         run: |
@@ -88,6 +95,8 @@ jobs:
           while ! nc -z localhost 8002 </dev/null; do echo Waiting for PHP server to start...; sleep 1; done
 
       - name: Run tests
+        env:
+          WEB_FIXTURES_BROWSER: ${{matrix.selenium.browser}}
         run: |
           ./vendor/bin/phpunit -v --coverage-clover=coverage.xml
 
