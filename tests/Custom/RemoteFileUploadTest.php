@@ -23,6 +23,7 @@ class RemoteFileUploadTest extends TestCase
         unlink(sys_get_temp_dir() . '/some_file.txt');
 
         $button = $page->findButton('Register');
+        $this->assertNotNull($button);
         $button->press();
 
         if ($this->safePageWait(5000, 'document.title === "Advanced form save"')) {
