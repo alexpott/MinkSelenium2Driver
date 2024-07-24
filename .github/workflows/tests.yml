@@ -87,7 +87,7 @@ jobs:
 
       - name: Start Selenium
         run: |
-          docker run --net host --name selenium --volume /dev/shm:/dev/shm -e SE_NODE_OVERRIDE_MAX_SESSIONS=true -e SE_NODE_MAX_SESSIONS=5 --shm-size 2g ${{ matrix.selenium.image }} &> ./logs/selenium.log &
+          docker run --net host --name selenium --volume /dev/shm:/dev/shm --volume $GITHUB_WORKSPACE:$GITHUB_WORKSPACE -e SE_NODE_OVERRIDE_MAX_SESSIONS=true -e SE_NODE_MAX_SESSIONS=5 --shm-size 2g ${{ matrix.selenium.image }} &> ./logs/selenium.log &
 
       - name: Wait for browser & PHP to start
         run: |
