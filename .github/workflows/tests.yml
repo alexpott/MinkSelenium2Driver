@@ -107,8 +107,8 @@ jobs:
 
       - name: Archive logs artifacts
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: logs_php-${{ matrix.php }}
+          name: logs_php-${{ matrix.php }}_${{ matrix.selenium.browser }}_${{ strategy.job-index }}
           path: |
             logs
