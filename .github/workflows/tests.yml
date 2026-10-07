@@ -49,6 +49,7 @@ jobs:
   tests:
     name: Tests
     runs-on: ubuntu-22.04
+    continue-on-error: ${{ matrix.selenium.experimental == true }}
     strategy:
       matrix:
         php: [ '8.1', '8.2', '8.3' ]
@@ -58,8 +59,11 @@ jobs:
             browser: firefox
           - image: 'selenium/standalone-firefox:latest'
             browser: firefox
+          - image: 'selenium/standalone-chrome:133.0'
+            browser: chrome
           - image: 'selenium/standalone-chrome:latest'
             browser: chrome
+            experimental: true
 
       fail-fast: false
 
