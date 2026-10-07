@@ -25,7 +25,9 @@ jobs:
           coverage: none
           php-version: '8.2'
 
-      - run: composer validate --strict --no-check-lock
+      # Cannot --strict here because we need to pin mink/driver-testsuite to a
+      # specific commit.
+      - run: composer validate --no-check-lock
 
   static_analysis:
     name: Static analysis

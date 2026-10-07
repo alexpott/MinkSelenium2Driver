@@ -25,7 +25,7 @@
         "lullabot/php-webdriver": "^2.0.6"
     },
     "require-dev": {
-        "mink/driver-testsuite": "dev-master#d5495529120cf3bd328800f34d116e70eda72b49",
+        "mink/driver-testsuite": "dev-master#8073a23750418b01ce66dc07a7e4b50fe97066b0",
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-phpunit": "^1.3",
         "phpunit/phpunit": "^8.5.22 || ^9.5.11",
